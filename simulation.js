@@ -23,7 +23,7 @@ let nodes;
 					function othername() {
 					   m = parseInt( document.getElementById("connectionsInput").value);
     					starter = parseFloat(document.getElementById("startersInput").value)/100;
-            
+
 console.log("param updated",m,p)
 					}
 
@@ -38,6 +38,8 @@ d3.select("#rumorButton").on("click", function() {
     mode++
     console.log('mode++')
     if (mode==0){
+
+			document.getElementById("whatButtonDoes").innerHTML = "Click here to stop"
         iter=0
 //
 //         for (let c = 0; c < 1000; c++) {
@@ -54,8 +56,15 @@ d3.select("#rumorButton").on("click", function() {
                 return;
             }}, 0);
     }
-    if (mode>=1){
-        if (mode==1) {
+		if (mode==1){
+
+						document.getElementById("whatButtonDoes").innerHTML = "Click here to start a rumor"
+		}
+    if (mode>=2){
+
+									document.getElementById("whatButtonDoes").innerHTML = "Click here to spread the rumor"
+        if (mode==2) {
+
             console.log('compute neighbours')
             for (let e in edgesD) {
                 s = edgesD[e].source.id
@@ -114,10 +123,10 @@ d3.select("#rumorButton").on("click", function() {
         console.log(counts)
 
 
-        document.getElementById("numNodes").innerHTML = nodesD.length+" individus"
-        document.getElementById("numSane").innerHTML = counts['sane']+" sains"
-        document.getElementById("numIncube").innerHTML = counts['incube']+" incubent"
-        document.getElementById("numInfected").innerHTML = counts['infected']+" infectés"
+        document.getElementById("numNodes").innerHTML = "As of now, there are "+nodesD.length+" individuals, among which:"
+        document.getElementById("numSane").innerHTML = counts['sane']+" sanes"
+        document.getElementById("numIncube").innerHTML = counts['incube']+" incubating"
+        document.getElementById("numInfected").innerHTML = counts['infected']+" convinced"
 
     }
 
@@ -262,7 +271,7 @@ function update() {
         .append("circle")
         .attr("class", "node")
         .attr('id',d=>"node"+d.id)
-        .attr("r", function(d) {return mode<1?rScale(d.weight):30})
+        .attr("r", function(d) {return mode<2?rScale(d.weight):30})
         .call(d3.drag()
         .on("start", dragstarted)
         .on("drag", dragged)
@@ -335,7 +344,7 @@ function compare(a1,a2){
 
 }
 function updateStats() {
-    document.getElementById("numNodes").innerHTML = nodesD.length+" individus"
+    document.getElementById("numNodes").innerHTML = "As of now there are "+nodesD.length+" individuals"
     // update stats bar chart
     var statsD = collectStats()
     statsD.sort(compare)
